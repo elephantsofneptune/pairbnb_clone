@@ -1,0 +1,9 @@
+<h1>Users#index</h1>
+<% @users.each_with_index do |x,i| %>
+<ul> <%= i %>
+<li> <%= link_to x.name, user_path(x) %> </li>
+<li> <%= x.email %> </li>
+</ul>
+<% end %>
+
+<%= paginate @users %>

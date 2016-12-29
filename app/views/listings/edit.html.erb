@@ -1,0 +1,49 @@
+<h2> EDIT LISTING </h2>
+<%= form_for :listing, url: {action: :update}, method: "put", html: {multipart: true} do |f| %>
+
+  <div id="errors">
+    
+  </div>
+
+  <h4> Edit details </h2>
+  <div class="text-field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="text-field">
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+  <div class="number-field">
+    <%= f.label :pax %>
+    <%= f.text_field :pax %>
+  </div>
+  <div class="text-field">
+    <%= f.label :country %>
+    <%= f.text_field :country %>
+  </div>
+
+  <div class="text-field">
+    <%= f.label :address %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div class="text-field">
+    <%= f.label :tags %>
+    <%= f.text_field :tag_list %>
+  </div>
+  <br>
+
+  <h4> Upload an image </h2>
+  <%= f.file_field :image %>
+
+  <%= f.label :remote_image_url, "or img URL" %><br>
+  <%= f.text_field :remote_image_url %>
+
+  <div class="text-field">
+    <%= f.submit %>
+  </div>
+<% end %>
+<br>
+<%= link_to "[View listing]", listing_path(params[:id]) %>

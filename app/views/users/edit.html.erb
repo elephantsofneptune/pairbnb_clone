@@ -1,0 +1,21 @@
+<h2> EDIT PAGE </h2>
+<%= form_for :user, url: {action: :update}, method: "put" do |form| %>
+
+  <div id="errors">
+    
+  </div>
+
+  <div class="text-field">
+    <%= form.label :email %>
+    <%= form.text_field :email, type: 'email' %>
+  </div>
+
+  <div class="name-field">
+    <%= form.label :name %>
+    <%= form.text_field :name, type: 'name' %>
+  </div>
+
+  <div class="submit-field">
+    <%= form.submit %>
+  </div>
+<% end %>

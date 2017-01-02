@@ -1,1 +1,2 @@
-$('#errors').empty().append('<p style="color:red";><%=@user.errors.full_messages.join(", ")%> </p>');
+$('#errors').empty().append(
+    '<p><%=@user.errors.full_messages.join(", ")%> </p>');

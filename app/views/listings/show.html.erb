@@ -1,13 +1,87 @@
 <h1>Listings#show</h1>
+
+
+<%= params[:success] %>
+
 <h2><%= @listing.title %></h2>
-<% if @listing.image %>
-    <%= image_tag @listing.image_url.to_s %>
-<% else %>
-    <%= image_tag @listing.image_remote_url.to_s %>
+
+<% @listing_attachments.each do |x| %>
+<%= image_tag x.image_url %>
+    <% if owner? %>
+      <%= link_to "Edit Attachment", edit_listing_attachment_path(x) %>
+    <% end %>
 <% end %>
+
+
 <h4>OWNER : <%= link_to User.find(@listing.user_id).name, user_path(@listing.user_id) %> </h4>
 <h4>DESCRIPTION : <%= @listing.description %> </h4>
 <h4>PAX : <%= @listing.pax %> </h4>
 <h4>COUNTRY : <%= @listing.country %> </h4>
 <h4>ADDRESS : <%= @listing.address %> </h4>
 <h4>TAGS : <%= @listing.tag_list %> </h4>
+
+<br>
+
+<% if flash[:notice] %>
+    <li id="errors"><%= flash[:notice] %></li>
+<% end %>
+
+<%= form_for [@listing,@reservation] do |f| %>
+    <h4> Booking details </h4>
+    <div class="date-field">
+      <%= f.label :date_start %>
+      <%= f.date_field :date_start %>
+    </div>
+
+    <div class="date-field">
+      <%= f.label :date_end %>
+      <%= f.date_field :date_end %>
+    </div>
+
+    <div class="submit-field">
+      <%= f.submit "Make Reservation" %>
+    </div>
+<% end %>
+
+<br>
+
+<h4> Bookings </h4>
+<% if @listing.reservations.empty? %>
+    <p> No bookings here </p>
+<% else %>
+    <% @listing.reservations.each_with_index do |x,i| %>
+        <%= i %>
+        <p> START: <%= x.date_start.strftime('%v') %> <br> 
+            END: <%= x.date_end.strftime('%v') %></p>
+    <% end %>
+<% end %>
+
+
+
+<!-- MODAL TESTING -->
+
+<!-- MODAL BUTTON ACTIVATOR -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> Make Reservation </button>
+
+<!-- MODAL CONTENT -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"> &times;</button>
+          <h4 class="modal-title"> Payment info </h4>
+        </div>
+
+        <div class="modal-body">
+        <%= render 'braintree/form' %>
+        </div>
+
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+  </div>
+</div>

@@ -35,15 +35,17 @@
   </div>
   <br>
 
-  <h4> Upload an image </h2>
-  <%= f.file_field :image %>
-
-  <%= f.label :remote_image_url, "or img URL" %><br>
-  <%= f.text_field :remote_image_url %>
-
   <div class="text-field">
-    <%= f.submit %>
+    <%= f.submit "Edit details" %>
   </div>
 <% end %>
+<br>
+
+<% @listing_attachments.each do |x| %>
+<%= image_tag x.image_url(:thumb) %>
+    <% if owner? %>
+      <%= link_to "Delete Attachment", t, method: "delete" %>
+    <% end %>
+<% end %> 
 <br>
 <%= link_to "[View listing]", listing_path(params[:id]) %>

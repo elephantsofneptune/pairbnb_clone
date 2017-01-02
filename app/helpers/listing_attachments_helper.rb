@@ -1,0 +1,2 @@
+module ListingAttachmentsHelper
+end

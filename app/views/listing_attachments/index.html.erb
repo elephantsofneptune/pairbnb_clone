@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Listing Attachments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Post</th>
+      <th>Image</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @listing_attachments.each do |listing_attachment| %>
+      <tr>
+        <td><%= listing_attachment.listing_id %></td>
+        <td><%= listing_attachment.image %></td>
+        <td><%= link_to 'Show', listing_attachment %></td>
+        <td><%= link_to 'Edit', edit_listing_attachment_path(listing_attachment) %></td>
+        <td><%= link_to 'Destroy', listing_attachment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Listing attachment', new_listing_attachment_path %>

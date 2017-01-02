@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tag %>
   <!-- Latest compiled and minified CSS -->
@@ -12,38 +13,43 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
+
+
 <body>
-<div class="container">
-  <%= link_to '[HOME]', root_path %>
-  
-  <% if current_user %>
-    <%= link_to '[MY PROFILE]', current_user %>
-    <%= link_to '[CREATE LISTING]', new_listing_path %>
+<nav id="bigboy" class="container navbar navbar-default navbar-fixed-top">
+    <ul class="nav navbar-nav">
 
-    <% if moderator? || superadmin? %>
-      <%= link_to '[ALL USERS]', users_path %>
-      <%= link_to '[ALL LISTINGS]', listings_path %>
-      <b><%= current_user.role.upcase %></b>
-    <% end %>
-  <% end %>
+        <li> <%= link_to 'HOME', root_path %> </li>
+        
+        <% if current_user %>
+        <li> <%= link_to 'MY PROFILE', current_user %> </li>
+        <li> <%= link_to 'CREATE LISTING', new_listing_path %> </li>
+
+            <% if moderator? || superadmin? %>
+            <li> <%= link_to 'ALL USERS', users_path %> </li>
+            <li> <%= link_to 'ALL LISTINGS', listings_path %> </li>
+            <li class="active"> <%= link_to current_user.role.upcase %> </li>
+            <% end %>
+        <% end %>
+
+        <% if signed_in? -%>
+           <li class="nav-item"> 
+            <%= link_to "SIGN OUT", sign_out_path, method: :delete %> 
+           </li>
+        <% else -%>
+           <li class="nav-item"> 
+            <%= link_to "SIGN IN".upcase, sign_in_path %> 
+           </li>
+        <% end -%>
+
+<!--         <% flash.each do |key, value| -%>
+          <div id="flash_<%= key %>"><%=h value %></div>
+        <% end %> -->
+    </ul>
+</nav>
 
 
-  <div id="header">
-    <% if signed_in? -%>
-      <%= button_to t(".sign_out"), sign_out_path, method: :delete %>
-    <% else -%>
-      <%= link_to t(".sign_in"), sign_in_path %>
-    <% end -%>
-  </div>
-
-  <div id="flash">
-    <% flash.each do |key, value| -%>
-      <div id="flash_<%= key %>"><%=h value %></div>
-    <% end %>
-  </div>
-</div>  
-
-<div class="container">
+<div id ="body" class="container">
   <%= yield %>
 </div>
 

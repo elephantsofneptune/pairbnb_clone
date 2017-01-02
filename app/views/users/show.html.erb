@@ -1,35 +1,50 @@
 <h1><%= @user.name %>'s profile</h1>
 
 <% if owner? %>
-<%= link_to "[Edit user]", edit_user_path %>
+    <%= link_to "[Edit user]", edit_user_path %>
 <% end %>
 
 <h3> Information </h3>
 <p>E-mail:<%= @user.email %></p>
 <p>Name:<%= @user.name %></p>
 
-<h3> Listings </h3>
-<% @listings = @user.listings %>
-<% @listings.each_with_index do |x,i| %>
-<ul> NO.<%= i %><br>
-
-<% if x.image %>
-    <%= image_tag x.image_url(:thumb).to_s %>
-<% else %>
-    <%= image_tag x.image_remote_url(:thumb).to_s %>
-<% end %>
-
-    <li> TITLE : <%= link_to Listing.find(x.id).title, listing_path(x.id) %> </li>
-    <li> DESCRIPTION : <%= x.description %> </li>
-    <li> PAX : <%= x.pax %> people </li>
-    <li> COUNTRY : <%= x.country %> </li>
-    <li> ADDRESS : <%= x.address %> </li>
-    <li> TAGS : <%= x.tag_list %> </li>
-
-    <% if owner? %>
-    <%= link_to "[EDIT listing]", edit_listing_path(x) %>
-    <%= link_to "[DELETE listing]", listing_path(x), method: :delete  %>
+<% if owner? %>
+        <h4> My Reservations </h4>
+    <% if @user.reservations.present? %>
+        <% @user.reservations.each do |x| %>
+        <p><%= x.listing.title %><br>
+        From: <%= x.date_start.strftime('%v') %><br>
+        Until: <%= x.date_end.strftime('%v') %><br></p>
+        <% end %>
+    <% else %>
+        <p> No reservations :( </p>
     <% end %>
-    
-</ul>
 <% end %>
+
+
+<h3> Listings </h3>
+
+    <% @listings = @user.listings %>
+    <% @listings.each_with_index do |x,i| %>
+        <ul> NO.<%= i %><br>
+
+        <% if x.listing_attachments.present? %>
+            <% x.listing_attachments.each do |img| %>
+                <%= image_tag img.image_url(:thumb) %>
+            <% end %>
+        <% end %>
+
+            <li> TITLE : <%= link_to Listing.find(x).title, listing_path(x) %> </li>
+            <li> DESCRIPTION : <%= x.description %> </li>
+            <li> PAX : <%= x.pax %> people </li>
+            <li> COUNTRY : <%= x.country %> </li>
+            <li> ADDRESS : <%= x.address %> </li>
+            <li> TAGS : <%= x.tag_list %> </li>
+
+            <% if owner? %>
+            <%= link_to "[EDIT listing]", edit_listing_path(x) %>
+            <%= link_to "[DELETE listing]", listing_path(x), method: :delete  %>
+            <% end %>
+        
+        </ul>
+    <% end %>

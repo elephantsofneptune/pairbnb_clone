@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+
+  resources :listing_attachments
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "sessions", only: [:create]
 
@@ -7,15 +9,20 @@ Rails.application.routes.draw do
     resource :password, controller: "clearance/passwords", only: [:create, :edit, :update]
   end
 
-  # get "/sign_in" => "clearance/sessions#new", as: "sign_in"
-  # delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
-  # get "/sign_up" => "clearance/users#new", as: "sign_up"
+  resources :listings, only: [:index, :show, :edit, :update, :new, :create, :destroy] do
+    resources :reservations, only: [:create]
+  end
   
-  resources :listings
-
   root 'static#index'
 
   get "/auth/:provider/callback" => "sessions#create_from_omniauth", as: "omni_auth"
+ 
+  get 'braintree/new'
+
+  # get "/sign_in" => "clearance/sessions#new", as: "sign_in"
+  # delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
+  # get "/sign_up" => "clearance/users#new", as: "sign_up"
+
   # get 'static/index'
 
   # get 'listings/create'

@@ -1,0 +1,7 @@
+<p> Dear, <%= @host_name %> </p>
+<h1> You have a new reservation from <%= @customer_name %></h1>
+<h3> Here are the booking details : </h3>
+<p> From : <%= @date_start %> <br> 
+    Until : <%= @date_end %> </p>
+
+<p><%= link_to "View the reservation", reservation_url(@reservation), :target => "_blank" %></p>

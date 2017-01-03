@@ -10,6 +10,17 @@
     validate :check_overlapping_dates
     # validate :check_max_guests
 
+    def send_notification!
+        byebug
+        # TODO Get host email
+        listing = Listing.find(self.listing_id)
+        host = User.find(listing.user_id)
+        # TODO Send an email to the host
+
+        ReservationMailer.reservation_notification(host,self).deliver_later
+
+    end
+
      def check_overlapping_dates
          listing.reservations.each do |reservation|
               if overlap?(self, reservation)
@@ -22,14 +33,17 @@
          (x.date_start - y.date_end) * (y.date_start - x.date_end) > 0
      end
 
+     def total_price
+         price = listing.price
+         return price
+     end
+
      # def check_max_guests
      #     max_guests = listing.pax
      #     return if num_guests < max_guests
      #    errors.add(:max_guests, "Maximum number of guests exceeded")
      # end
 
-     def total_price
-         price = listing.price
-         return price
-     end
+
+
 end

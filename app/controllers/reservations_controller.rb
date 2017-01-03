@@ -21,12 +21,15 @@ class ReservationsController < ApplicationController
       @reservation.user_id = current_user.id
       @reservation.listing_id = params[:listing_id]
       @reservation.total_price
+
       if @reservation.save
-        redirect_to :back
+        @reservation.send_notification!
+        redirect_to @reservation
       else
         flash[:notice] = @reservation.errors.messages[:messages].join
         redirect_to :back
       end
+
     end
   end
 

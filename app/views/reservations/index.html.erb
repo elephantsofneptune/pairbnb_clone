@@ -1,2 +1,9 @@
 <h1>Reservations#index</h1>
 <p>Find me in app/views/reservations/index.html.erb</p>
+<% @reservations.each_with_index do |x,i| %>
+    <%= i %><%= link_to " [SHOW]", reservation_path(x) %>
+    <p> START: <%= x.date_start.strftime('%v') %> <br> 
+        END: <%= x.date_end.strftime('%v') %>
+        TOTAL_PRICE: <%= x.total_price %>
+    </p>
+<% end %>

@@ -1,5 +1,4 @@
-<h1>Braintree#new</h1>
-<p>Find me in app/views/braintree/new.html.erb</p>
+<% @client_token = Braintree::ClientToken.generate %>
 
 <div class = "demo-frame">
 
@@ -14,7 +13,7 @@
         <%= form.label :cvv, "CVV", html:{class: "hosted-fields--label"} %>
         <div id="cvv" class="hosted-field"></div>
 
-        <%= form.hidden_field "payment_method_nonce", value:"fake-valid-nonce" %>
+        <%= form.hidden_field "payment_method_nonce" %>
 
         <div class="button-container">
             <%= form.submit "Purchase", disabled: true, class: "btn btn-primary", id: "submit-payment-btn" %>
@@ -32,7 +31,6 @@
   var submit = document.querySelector('#submit-payment-btn');
   var authorization = '<%=@client_token %>'
   
-  console.log("Asdasdsa")
   braintree.client.create({
     // Replace this with your own authorization.
     authorization: authorization
@@ -78,7 +76,7 @@
 
       submit.removeAttribute('disabled');
 
-      form.addEventListener('#submit-payment-btn', function (event) {
+      form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
@@ -90,8 +88,10 @@
           // Put `payload.nonce` into the `payment-method-nonce` input, and then
           // submit the form. Alternatively, you could send the nonce to your server
           // with AJAX.
-          document.querySelector('input[name="payment-method-nonce"]').value = payload.nonce;
+          console.log(document.getElementById('checkout_form_payment_method_nonce'))
+          document.querySelector('#checkout_form_payment_method_nonce').value = payload.nonce;
           form.submit();
+
         });
       }, false);
     });

@@ -20,6 +20,7 @@ class ReservationsController < ApplicationController
       @reservation = Reservation.new(reservation_from_params)
       @reservation.user_id = current_user.id
       @reservation.listing_id = params[:listing_id]
+      @reservation.total_price
       if @reservation.save
         redirect_to :back
       else
@@ -29,7 +30,7 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy 
   end
 
   def edit
@@ -45,6 +46,7 @@ class ReservationsController < ApplicationController
       :date_end
       )
   end
+
 
 
 end

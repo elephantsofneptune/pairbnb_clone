@@ -18,6 +18,7 @@
 <h4>PAX : <%= @listing.pax %> </h4>
 <h4>COUNTRY : <%= @listing.country %> </h4>
 <h4>ADDRESS : <%= @listing.address %> </h4>
+<h4>PRICE : <%= @listing.price %> </h4>
 <h4>TAGS : <%= @listing.tag_list %> </h4>
 
 <br>
@@ -27,6 +28,7 @@
 <% end %>
 
 <%= form_for [@listing,@reservation] do |f| %>
+
     <h4> Booking details </h4>
     <div class="date-field">
       <%= f.label :date_start %>
@@ -41,7 +43,9 @@
     <div class="submit-field">
       <%= f.submit "Make Reservation" %>
     </div>
+
 <% end %>
+    
 
 <br>
 
@@ -52,7 +56,8 @@
     <% @listing.reservations.each_with_index do |x,i| %>
         <%= i %>
         <p> START: <%= x.date_start.strftime('%v') %> <br> 
-            END: <%= x.date_end.strftime('%v') %></p>
+            END: <%= x.date_end.strftime('%v') %>
+            TOTAL_PRICE: <%= x.total_price %></p>
     <% end %>
 <% end %>
 

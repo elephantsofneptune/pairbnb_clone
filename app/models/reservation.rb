@@ -11,14 +11,12 @@
     # validate :check_max_guests
 
     def send_notification!
-        byebug
         # TODO Get host email
         listing = Listing.find(self.listing_id)
         host = User.find(listing.user_id)
         # TODO Send an email to the host
 
-        ReservationMailer.reservation_notification(host,self).deliver_later
-
+        ReservationMailer.reservation_notification(host,self).deliver_now
     end
 
      def check_overlapping_dates

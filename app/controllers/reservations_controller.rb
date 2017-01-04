@@ -23,7 +23,7 @@ class ReservationsController < ApplicationController
       @reservation.total_price
 
       if @reservation.save
-        @reservation.send_notification!
+        # ReservationJob.perform_later(@reservation)
         redirect_to @reservation
       else
         flash[:notice] = @reservation.errors.messages[:messages].join

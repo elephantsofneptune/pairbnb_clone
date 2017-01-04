@@ -20,8 +20,8 @@ class ReservationsController < ApplicationController
       @reservation = Reservation.new(reservation_from_params)
       @reservation.user_id = current_user.id
       @reservation.listing_id = params[:listing_id]
-      @reservation.total_price
-
+      @reservation.total_price = @listing.price*((@reservation.date_end.to_date-@reservation.date_start.to_date).to_i)
+      
       if @reservation.save
         # ReservationJob.perform_later(@reservation)
         redirect_to @reservation

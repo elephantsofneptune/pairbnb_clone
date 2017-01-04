@@ -11,8 +11,9 @@
 <% if owner? %>
         <h4> My Reservations </h4>
     <% if @user.reservations.present? %>
-        <% @user.reservations.each do |x| %>
+        <% @user.reservations.each_with_index do |x,i| %>
         <p><%= x.listing.title %><br>
+        <%= link_to i, reservation_path(x) %><br>
         From: <%= x.date_start.strftime('%v') %><br>
         Until: <%= x.date_end.strftime('%v') %><br></p>
         <% end %>

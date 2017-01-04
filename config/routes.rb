@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   resources :listing_attachments
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, controller: "sessions", only: [:create]
@@ -13,15 +12,19 @@ Rails.application.routes.draw do
     resources :reservations, only: [:create]
   end
   
-  resources :reservations, only: [:index, :show]
+  resources :reservations, only: [:index, :show] do
+      resources :payments, only: [:new,:create]
+  end
+
+  resources :payments, only: [:show]
 
   root 'static#index'
 
   get "/auth/:provider/callback" => "sessions#create_from_omniauth", as: "omni_auth"
- 
+    
   get 'braintree/new'
   post 'braintree/checkout'
-  
+
   # get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   # delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   # get "/sign_up" => "clearance/users#new", as: "sign_up"

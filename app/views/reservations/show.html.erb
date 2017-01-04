@@ -1,2 +1,26 @@
 <h1>Reservations#show</h1>
 <p>Find me in app/views/reservations/show.html.erb</p>
+    DATE START : <%= @reservation.date_start %><br>
+    DATE END : <%= @reservation.date_end %><br>
+    LISTING ID : <%= @reservation.listing_id %><br>
+    USER ID : <%= @reservation.user_id %><br>
+    TOTAL PRICE : <%= @reservation.total_price %><br>
+
+<% total_paid = 0 %>
+
+<% @reservation.payments.each do |x| %>
+    <% if x.status != nil %>
+    <% total_paid += x.amount %>
+    <% end %>
+<% end %>
+
+TOTAL PAID : <%= total_paid %> <br>
+
+<% balance = @reservation.total_price - total_paid %>
+BALANCE : <%= balance %>
+
+<% if balance > 0 %>
+    <%= link_to "[PAYMENT]", new_reservation_payment_path(@reservation) %>
+<% else %>
+    <b><h3> PAID </h3></b>
+<% end %>

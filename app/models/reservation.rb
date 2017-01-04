@@ -2,6 +2,8 @@
     belongs_to :listing
     belongs_to :user
 
+    has_many :payments
+
     validates :date_start, presence: true
     validates :date_end, presence: true
     validates :user_id, presence: true
@@ -30,12 +32,7 @@
      def overlap?(x,y)
          (x.date_start - y.date_end) * (y.date_start - x.date_end) > 0
      end
-
-     def total_price
-         price = listing.price
-         return price
-     end
-
+     
      # def check_max_guests
      #     max_guests = listing.pax
      #     return if num_guests < max_guests

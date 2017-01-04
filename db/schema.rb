@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103061605) do
+ActiveRecord::Schema.define(version: 20170104084533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 20170103061605) do
   end
 
   add_index "listings", ["user_id"], name: "index_listings_on_user_id", using: :btree
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.integer  "amount"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "status"
+    t.string   "transaction_id"
+  end
+
+  add_index "payments", ["reservation_id"], name: "index_payments_on_reservation_id", using: :btree
 
   create_table "reservations", force: :cascade do |t|
     t.integer  "user_id"

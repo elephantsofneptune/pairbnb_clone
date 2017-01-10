@@ -1,2 +1,21 @@
 <h1>Static#index</h1>
 <p>Find me in app/views/static/index.html.erb</p>
+
+<%= form_for :search, url: search_listings_path, method: :get do |f| %>
+    
+    <div class="text-field">
+      <%= f.label :country %>
+      <%= f.text_field :country %>
+    </div>
+    <div class="number-field">
+      <%= f.label :pax %>
+      <%= f.number_field :pax %>
+    </div>
+    <div class="number-field">
+      <%= f.label :price %>
+      <%= f.number_field :price %>
+    </div>
+
+      <%= f.submit "Search!" %>
+
+<% end %>

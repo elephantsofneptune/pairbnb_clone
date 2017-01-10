@@ -6,32 +6,37 @@
     <% end %>
   <% end %>
 
-<%= form_for (@listing), html: {multipart: true} do |f| %>
+<%= form_for @listing do |f| %>
 
     <h4> Listing details </h4>
     <div class="text-field">
       <%= f.label :title %>
-      <%= f.text_field :title, type: 'title' %>
+      <%= f.text_field :title %>
     </div>
 
     <div class="text-field">
       <%= f.label :description %>
-      <%= f.text_field :description, type: 'description' %>
+      <%= f.text_field :description %>
     </div>
 
     <div class="text-field">
       <%= f.label :country %>
-      <%= f.text_field :country, type: 'country' %>
+      <%= f.text_field :country %>
     </div>
 
     <div class="text-field">
       <%= f.label :address %>
-      <%= f.text_field :address, type: 'address' %>
+      <%= f.text_field :address %>
     </div>
 
     <div class="number-field">
       <%= f.label :pax %>
       <%= f.text_field :pax %>
+    </div>
+
+    <div class="number-field">
+      <%= f.label :price %>
+      <%= f.text_field :price %>
     </div>
 
     <div class="text-field">

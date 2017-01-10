@@ -54,13 +54,14 @@ class ListingAttachmentsController < ApplicationController
   # DELETE /listing_attachments/1
   # DELETE /listing_attachments/1.json
   def destroy
-    byebug
-    @listing_attachment = params
+    @listing_attachment = ListingAttachment.find(params[:id])
     @listing_attachment.destroy
-    respond_to do |format|
-      format.html { redirect_to listing_attachments_url, notice: 'Listing attachment was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    
+    redirect_to :back
+    # respond_to do |format|
+    #   format.html { redirect_to listing_attachments_url, notice: 'Listing attachment was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private
@@ -71,6 +72,6 @@ class ListingAttachmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_attachment_params
-      params.require(:listing_attachment).permit(:post_id, :image)
+      params.require(:listing_attachment).permit(:listing_id, :image)
     end
 end

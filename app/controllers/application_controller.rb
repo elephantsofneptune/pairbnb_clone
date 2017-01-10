@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     protected
 
     def owner?
-        if current_user.id == params[:id].to_i || moderator?
+        if current_user.id == Listing.find(params[:id]).user_id || current_user.id == params[:id].to_i ||  moderator?
             true
         else
             flash[:error] = "This is not yours"

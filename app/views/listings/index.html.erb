@@ -1,58 +1,92 @@
 <h1>Listings#index</h1>
 
-<% @listings.each_with_index do |x,i| %>
-    <ul> NO.<%= i %>
-        <li> OWNER : <%= link_to User.find(x.user_id).name, user_path(x.user_id) %> </li>
-        <li> TITLE : <%= link_to Listing.find(x.id).title, listing_path(x.id) %> </li>
-        <li> DESCRIPTION : <%= x.description %> </li>
-        <li> PAX : <%= x.pax %> people </li>
-        <li> COUNTRY : <%= x.country %> </li>
-        <li> ADDRESS : <%= x.address %> </li>
-        <li> TAGS : <%= x.tag_list %> </li>
-
-        <% if moderator? %>
-            <li> STATUS : <%= x.status %> </li>
-            <% if x.status == "pending" %>
-
-                <%= form_for x do |form| %>
-                <%= form.text_field :status, value: "approved", class: "hidden" %>
-                <%= form.submit "Approve" %>
-                <% end %>
-                <%= form_for x do |form| %>
-                <%= form.text_field :status, value: "denied", class: "hidden" %>
-                <%= form.submit "Deny" %>
-                <% end %>
-
-            <% elsif x.status == "denied" %>
-
-                <%= form_for x do |form| %>
-                <%= form.text_field :status, value: "approved", class: "hidden" %>
-                <%= form.submit "Approve" %>
-                <% end %>
-                <%= form_for x do |form| %>
-                <%= form.text_field :status, value: "pending", class: "hidden" %>
-                <%= form.submit "Pending" %>
-                <% end %>
-
-            <% else %>
-
-                <%= form_for x do |form| %>
-                <%= form.text_field :status, value: "denied", class: "hidden" %>
-                <%= form.submit "Deny" %>
-                <% end %>
-                <%= form_for x do |form| %>
-                <%= form.text_field :status, value: "pending", class: "hidden" %>
-                <%= form.submit "Pending" %>
-                <% end %>
-
-            <% end %>
-            <% if superadmin? %>
-                <%= button_to "Delete", listing_path(x), method: :delete, data:{confirm:'Are you sure?'} %>
-            <% end %>
-
-        <% end %>
-
-    </ul>
+<% if moderator? %>
+    <%= link_to "Approved Listings", approved_listings_path %><br>
+    <%= link_to "Pending Listings", pending_listings_path %><br>
+    <%= link_to "Denied Listings", denied_listings_path %>
+    <br>
 <% end %>
 
-<%= paginate @listings %>
+<%= form_for :search, url: search_listings_path, method: :get do |f| %>
+    
+    <div class="text-field">
+      <%= f.label :country %>
+      <%= f.text_field :country%>
+    </div>
+    <div class="number-field">
+      <%= f.label :pax %>
+      <%= f.number_field :pax %>
+    </div>
+    <div class="number-field">
+      <%= f.label :price %>
+      <%= f.number_field :price %>
+    </div>
+
+      <%= f.submit "Search!" %>
+
+<% end %>
+
+<br>
+
+<% unless @listings.blank? %>
+    <% @listings.each_with_index do |x,i| %>
+        <ul> NO.<%= i %>
+            <li> OWNER : <%= link_to User.find(x.user_id).name, user_path(x.user_id) %> </li>
+            <li> TITLE : <%= link_to Listing.find(x.id).title, listing_path(x.id) %> </li>
+            <li> DESCRIPTION : <%= x.description %> </li>
+            <li> PAX : <%= x.pax %> people </li>
+            <li> COUNTRY : <%= x.country %> </li>
+            <li> ADDRESS : <%= x.address %> </li>
+            <li> TAGS : <%= x.tag_list %> </li>
+            <li> PRICE/NIGHT : <%= x.price %> </li>
+
+            <% if moderator? %>
+                <li> STATUS : <%= x.status %> </li>
+                <% if x.status == "pending" %>
+
+                    <%= form_for x do |form| %>
+                    <%= form.text_field :status, value: "approved", class: "hidden" %>
+                    <%= form.submit "Approve" %>
+                    <% end %>
+                    <%= form_for x do |form| %>
+                    <%= form.text_field :status, value: "denied", class: "hidden" %>
+                    <%= form.submit "Deny" %>
+                    <% end %>
+
+                <% elsif x.status == "denied" %>
+
+                    <%= form_for x do |form| %>
+                    <%= form.text_field :status, value: "approved", class: "hidden" %>
+                    <%= form.submit "Approve" %>
+                    <% end %>
+                    <%= form_for x do |form| %>
+                    <%= form.text_field :status, value: "pending", class: "hidden" %>
+                    <%= form.submit "Pending" %>
+                    <% end %>
+
+                <% else %>
+
+                    <%= form_for x do |form| %>
+                    <%= form.text_field :status, value: "denied", class: "hidden" %>
+                    <%= form.submit "Deny" %>
+                    <% end %>
+                    <%= form_for x do |form| %>
+                    <%= form.text_field :status, value: "pending", class: "hidden" %>
+                    <%= form.submit "Pending" %>
+                    <% end %>
+
+                <% end %>
+                <% if superadmin? %>
+                    <%= button_to "Delete", listing_path(x), method: :delete, data:{confirm:'Are you sure?'} %>
+                <% end %>
+
+            <% end %>
+
+        </ul>
+
+    <% end %>
+
+    <%= paginate @listings %>
+<% else %>
+    <p> No results found :( </p>
+<% end %>

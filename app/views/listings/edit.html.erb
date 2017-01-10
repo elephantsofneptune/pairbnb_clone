@@ -1,56 +1,71 @@
 <h2> EDIT LISTING </h2>
+<%= link_to "[View listing]", listing_path(params[:id]) %>
 <%= form_for :listing, url: {action: :update}, method: "put", html: {multipart: true} do |f| %>
+    <div id="errors">
+    </div>
 
-  <div id="errors">
-    
-  </div>
+    <h4> Edit details </h2>
+    <div class="text-field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
 
-  <h4> Edit details </h2>
-  <div class="text-field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+    <div class="text-field">
+      <%= f.label :description %>
+      <%= f.text_field :description %>
+    </div>
+    <div class="number-field">
+      <%= f.label :pax %>
+      <%= f.text_field :pax %>
+    </div>
+    <div class="text-field">
+      <%= f.label :country %>
+      <%= f.text_field :country %>
+    </div>
 
-  <div class="text-field">
-    <%= f.label :description %>
-    <%= f.text_field :description %>
-  </div>
-  <div class="number-field">
-    <%= f.label :pax %>
-    <%= f.text_field :pax %>
-  </div>
-  <div class="text-field">
-    <%= f.label :country %>
-    <%= f.text_field :country %>
-  </div>
+    <div class="text-field">
+      <%= f.label :address %>
+      <%= f.text_field :address %>
+    </div>
 
-  <div class="text-field">
-    <%= f.label :address %>
-    <%= f.text_field :address %>
-  </div>
+    <div class="number-field">
+      <%= f.label :price %>
+      <%= f.text_field :price %>
+    </div>
 
-  <div class="number-field">
-    <%= f.label :price %>
-    <%= f.text_field :price %>
-  </div>
+    <div class="text-field">
+      <%= f.label :tags %>
+      <%= f.text_field :tag_list %>
+    </div>
 
-  <div class="text-field">
-    <%= f.label :tags %>
-    <%= f.text_field :tag_list %>
-  </div>
-  <br>
+    <br>
 
-  <div class="text-field">
-    <%= f.submit "Edit details" %>
-  </div>
+    <%= fields_for :listing_attachments do |p| %>
+       <div class="field">
+         <%= p.label 'Upload more images' %><br>
+         <%= p.file_field :image, :multiple => true, name: "listing_attachments[image][]" %>
+       </div>
+    <% end %>
+
+    <%= f.submit "Update details" %>
+
 <% end %>
+
 <br>
+
+
 
 <% @listing_attachments.each do |x| %>
-<%= image_tag x.image_url(:thumb) %>
+<%= image_tag x.image_url(:thumb) %><br>
     <% if owner? %>
-      <%= link_to "Delete Attachment", t, method: "delete" %>
-    <% end %>
+    <%= link_to '[DELETE]', listing_attachment_path(x), 'data-method' => :delete %>
+    <% end %><br>
 <% end %> 
+
 <br>
-<%= link_to "[View listing]", listing_path(params[:id]) %>
+
+<%= form_for @listing do |f| %>
+
+  
+<% end %>
+

@@ -1,26 +1,23 @@
-<h1>Listings#show</h1>
-
 
 <%= params[:success] %>
 
-<h2><%= @listing.title %></h2>
+<!--LISTING TITLE -->
+  <h2><%= @listing.title %></h2>
 
-<% @listing_attachments.each do |x| %>
-<%= image_tag x.image_url %>
-    <% if owner? %>
-      <%= link_to "Edit Attachment", edit_listing_attachment_path(x) %>
-    <% end %>
-<% end %>
+<!--DISPLAY LISTING IMAGES -->
+  <% @listing_attachments.each do |x| %>
+  <%= image_tag x.image_url %>
+  <% end %>
 
-
-<h4>OWNER : <%= link_to User.find(@listing.user_id).name, user_path(@listing.user_id) %> </h4>
-<h4>DESCRIPTION : <%= @listing.description %> </h4>
-<h4>PAX : <%= @listing.pax %> </h4>
-<h4>COUNTRY : <%= @listing.country %> </h4>
-<h4>ADDRESS : <%= @listing.address %> </h4>
-<h4>PRICE : <%= @listing.price %> </h4>
-<h4>TAGS : <%= @listing.tag_list %> </h4>
-
+<!-- LISTING DETAILS -->
+  <h4>OWNER :       <%= link_to User.find(@listing.user_id).name, user_path(@listing.user_id) %> </h4>
+  <h4>DESCRIPTION : <%= @listing.description %> </h4>
+  <h4>PAX :         <%= @listing.pax %> </h4>
+  <h4>COUNTRY :     <%= @listing.country %> </h4>
+  <h4>ADDRESS :     <%= @listing.address %> </h4>
+  <h4>PRICE :       <%= @listing.price %> </h4>
+  <h4>TAGS :        <%= @listing.tag_list %> </h4>
+  
 <br>
 
 <% if flash[:notice] %>
@@ -65,10 +62,10 @@
 
 <!-- MODAL TESTING -->
 
-<!-- MODAL BUTTON ACTIVATOR -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> Make Reservation </button>
+<!-- MODAL BUTTON ACTIVATOR 
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> Make Reservation </button>-->
 
-<!-- MODAL CONTENT -->
+<!-- MODAL CONTENT 
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -89,4 +86,4 @@
 
       </div>
   </div>
-</div>
+</div>-->
